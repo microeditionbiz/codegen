@@ -7,11 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E866AA628BE7FDB000AD476 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 6E866AA528BE7FDB000AD476 /* ArgumentParser */; };
+		6E866AA928BE8279000AD476 /* template.stencil in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E866AA728BE823E000AD476 /* template.stencil */; };
 		6EE04D0328A172E3003E435D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE04D0228A172E3003E435D /* main.swift */; };
-		6EE04D0B28A1774A003E435D /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 6EE04D0A28A1774A003E435D /* ArgumentParser */; };
+		6EE04D1128A17C3B003E435D /* Generator in Frameworks */ = {isa = PBXBuildFile; productRef = 6EE04D1028A17C3B003E435D /* Generator */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		6E866AA828BE826D000AD476 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = templates;
+			dstSubfolderSpec = 16;
+			files = (
+				6E866AA928BE8279000AD476 /* template.stencil in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6EE04CFD28A172E3003E435D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -24,8 +36,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6E866AA728BE823E000AD476 /* template.stencil */ = {isa = PBXFileReference; lastKnownFileType = text; path = template.stencil; sourceTree = "<group>"; };
 		6EE04CFF28A172E3003E435D /* File-Input-Codegenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "File-Input-Codegenerator"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EE04D0228A172E3003E435D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		6EE04D0E28A17C27003E435D /* Generator */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Generator; sourceTree = "<group>"; };
+		6EE04D1228A17D64003E435D /* example.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = example.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,7 +48,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EE04D0B28A1774A003E435D /* ArgumentParser in Frameworks */,
+				6E866AA628BE7FDB000AD476 /* ArgumentParser in Frameworks */,
+				6EE04D1128A17C3B003E435D /* Generator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,8 +59,10 @@
 		6EE04CF628A172E3003E435D = {
 			isa = PBXGroup;
 			children = (
+				6EE04D0D28A17C27003E435D /* Packages */,
 				6EE04D0128A172E3003E435D /* File-Input-Codegenerator */,
 				6EE04D0028A172E3003E435D /* Products */,
+				6EE04D0F28A17C3B003E435D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,8 +78,25 @@
 			isa = PBXGroup;
 			children = (
 				6EE04D0228A172E3003E435D /* main.swift */,
+				6EE04D1228A17D64003E435D /* example.yml */,
+				6E866AA728BE823E000AD476 /* template.stencil */,
 			);
 			path = "File-Input-Codegenerator";
+			sourceTree = "<group>";
+		};
+		6EE04D0D28A17C27003E435D /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				6EE04D0E28A17C27003E435D /* Generator */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		6EE04D0F28A17C3B003E435D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,6 +109,7 @@
 				6EE04CFB28A172E3003E435D /* Sources */,
 				6EE04CFC28A172E3003E435D /* Frameworks */,
 				6EE04CFD28A172E3003E435D /* CopyFiles */,
+				6E866AA828BE826D000AD476 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -81,7 +117,8 @@
 			);
 			name = "File-Input-Codegenerator";
 			packageProductDependencies = (
-				6EE04D0A28A1774A003E435D /* ArgumentParser */,
+				6EE04D1028A17C3B003E435D /* Generator */,
+				6E866AA528BE7FDB000AD476 /* ArgumentParser */,
 			);
 			productName = "File-Input-Codegenerator";
 			productReference = 6EE04CFF28A172E3003E435D /* File-Input-Codegenerator */;
@@ -305,10 +342,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		6EE04D0A28A1774A003E435D /* ArgumentParser */ = {
+		6E866AA528BE7FDB000AD476 /* ArgumentParser */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6EE04D0928A1774A003E435D /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
 			productName = ArgumentParser;
+		};
+		6EE04D1028A17C3B003E435D /* Generator */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Generator;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
