@@ -1,4 +1,29 @@
-- name: "lauti"
-  age: 3
-- name: "octavio"
-  age: 8
+baseName: "Sentence"
+SGPKit:
+  name: "Sentence"
+mobilePresentationInterface:
+  viewModel:
+    name: "Sentence"
+    type: "struct" # or enum based
+  updateValues: ["viewModel"] # list of possible Update values
+  actionValues: ["dismiss"] # List of possible Actions
+  scene:
+    name: "Sentence"
+  presenter:
+    name: "Sentence"
+presentation:
+  router:
+    name: "Sentence"
+  presenter:
+    name: "Sentence"
+mobileUI:
+  observableObject:
+    name: "Sentence"
+  view:
+    name: "Sentence"
+    includePreviews: true
+mobileUITestHarnes:
+  fakePresenter:
+    name: "Sentence"
+  scene:
+    name: "Sentence"
