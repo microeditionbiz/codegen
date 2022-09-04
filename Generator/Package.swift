@@ -9,11 +9,11 @@ let package = Package(
         .library(name: "Generator", targets: ["Generator"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/jpsim/Yams", from: "4.0.0"),
+        .package(url: "https://github.com/jpsim/Yams", from: "5.0.0"),
         .package(url: "https://github.com/kylef/PathKit", from: "1.0.0"),
         .package(url: "https://github.com/SwiftGen/StencilSwiftKit", from: "2.0.0"),
-        .package(url: "https://github.com/stencilproject/Stencil.git", from: "0.15.1"),
-        .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.9.6"),
+        .package(url: "https://github.com/stencilproject/Stencil.git", from: "0.15.0"),
+        .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.49.0"),
     ],
     targets: [
         .target(name: "Generator", dependencies: ["Yams", "PathKit", "StencilSwiftKit", "Stencil", "SwiftFormat"]),

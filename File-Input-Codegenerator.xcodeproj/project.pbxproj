@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E19FF6928C362840053A24F /* sentence.yml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6EE04D1228A17D64003E435D /* sentence.yml */; };
 		6E866AA628BE7FDB000AD476 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 6E866AA528BE7FDB000AD476 /* ArgumentParser */; };
 		6E866AA928BE8279000AD476 /* template.stencil in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6E866AA728BE823E000AD476 /* template.stencil */; };
 		6EE04D0328A172E3003E435D /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE04D0228A172E3003E435D /* main.swift */; };
@@ -14,6 +15,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		6E19FF6828C3626B0053A24F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				6E19FF6928C362840053A24F /* sentence.yml in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6E866AA828BE826D000AD476 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -40,7 +51,7 @@
 		6EE04CFF28A172E3003E435D /* File-Input-Codegenerator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "File-Input-Codegenerator"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EE04D0228A172E3003E435D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		6EE04D0E28A17C27003E435D /* Generator */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Generator; sourceTree = "<group>"; };
-		6EE04D1228A17D64003E435D /* example.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = example.yml; sourceTree = "<group>"; };
+		6EE04D1228A17D64003E435D /* sentence.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = sentence.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,7 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				6EE04D0228A172E3003E435D /* main.swift */,
-				6EE04D1228A17D64003E435D /* example.yml */,
+				6EE04D1228A17D64003E435D /* sentence.yml */,
 				6E866AA728BE823E000AD476 /* template.stencil */,
 			);
 			path = "File-Input-Codegenerator";
@@ -110,6 +121,7 @@
 				6EE04CFC28A172E3003E435D /* Frameworks */,
 				6EE04CFD28A172E3003E435D /* CopyFiles */,
 				6E866AA828BE826D000AD476 /* CopyFiles */,
+				6E19FF6828C3626B0053A24F /* CopyFiles */,
 			);
 			buildRules = (
 			);

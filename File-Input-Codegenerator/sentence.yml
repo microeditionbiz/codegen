@@ -1,0 +1,21 @@
+config:
+  basePrefixName: "Sentence"
+  servicesPrefixName: "Sentence"
+  mobilePresentationInterface:
+    viewModelPrefixName: "Sentence"
+    viewModelType: "struct" # or enum based
+    updateValues: ["viewModel"] # list of possible Update values
+    actionValues: ["dismiss"] # List of possible Actions
+    scenePrefixName: "Sentence"
+    presenterPrefixName: "Sentence"
+  presentation:
+    routerPrefixName: "Sentence"
+    scenePrefixName: "Sentence"
+    presenterPrefixName: "Sentence"
+  mobileUI:
+    observableObjectPrefixName: "Sentence"
+    viewPrefixName: "Sentence"
+    viewIncludesPreview: true
+  mobileUITestHarnes:
+    fakePresenterPrefixName: "Sentence"
+    sceneConfigurationPrefixName: "Sentence"
