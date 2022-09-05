@@ -112,7 +112,7 @@ public struct DictionaryInput: GeneratorInput {
 }
 
 public extension GeneratorInput where Self == DictionaryInput {
-    static func dictionaryInput(using file: String) -> Self {
-        DictionaryInput(file: file)
+    static func dictionaryInput(using dictionary: [String: Any]) -> Self {
+        DictionaryInput(dictionary: dictionary)
     }
 }
