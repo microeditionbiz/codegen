@@ -54,7 +54,7 @@ struct Generate: ParsableCommand {
 
         do {
             try generator.run(
-                inputFile: input,
+                input: .yamlInput(using: input),
                 templateFile: template,
                 outputFile: output
             )
