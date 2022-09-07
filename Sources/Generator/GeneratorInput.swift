@@ -9,7 +9,8 @@ import Foundation
 import Yams
 
 public enum GeneratorInputError: Error {
-    case invalidYaml
+    case invalidInputFile
+    case invalidPath(String)
 }
 
 public protocol GeneratorInput {
@@ -18,7 +19,7 @@ public protocol GeneratorInput {
 
 // MARK: - YAML
 
-public struct YamlInput: GeneratorInput {
+public struct YAMLInput: GeneratorInput {
     public let file: String
 
     public init(file: String) {
@@ -30,72 +31,74 @@ public struct YamlInput: GeneratorInput {
         let context = try Yams.load(yaml: yamlString) as? [String: Any]
 
         guard let context = context else {
-            throw GeneratorInputError.invalidYaml
+            throw GeneratorInputError.invalidInputFile
         }
 
         return context
     }
 }
 
-public extension GeneratorInput where Self == YamlInput {
+public extension GeneratorInput where Self == YAMLInput {
     static func yamlInput(using file: String) -> Self {
-        YamlInput(file: file)
+        YAMLInput(file: file)
     }
 }
 
 // MARK: - JSON
 
-//public struct YamlInput: GeneratorInput {
-//    public let file: String
-//
-//    public init(file: String) {
-//        self.file = file
-//    }
-//
-//    public func buildContext() throws -> [String: Any] {
-//        let yamlString = try String.init(contentsOfFile: file)
-//        let context = try Yams.load(yaml: yamlString) as? [String: Any]
-//
-//        guard let context = context else {
-//            throw GeneratorInputError.invalidYaml
-//        }
-//
-//        return context
-//    }
-//}
-//
-//public extension GeneratorInput where Self == YamlInput {
-//    static func yamlInput(using file: String) -> Self {
-//        YamlInput(file: file)
-//    }
-//}
+public struct JSONInput: GeneratorInput {
+    public let file: String
+
+    public init(file: String) {
+        self.file = file
+    }
+
+    public func buildContext() throws -> [String: Any] {
+        let data = try Data(contentsOf: URL(fileURLWithPath: file))
+        let context = try JSONSerialization.jsonObject(with: data)
+
+        guard let context = context as? [String: Any] else {
+            throw GeneratorInputError.invalidInputFile
+        }
+
+        return context
+    }
+}
+
+public extension GeneratorInput where Self == JSONInput {
+    static func jsonInput(using file: String) -> Self {
+        JSONInput(file: file)
+    }
+}
 
 // MARK: - PList
 
-//public struct YamlInput: GeneratorInput {
-//    public let file: String
-//
-//    public init(file: String) {
-//        self.file = file
-//    }
-//
-//    public func buildContext() throws -> [String: Any] {
-//        let yamlString = try String.init(contentsOfFile: file)
-//        let context = try Yams.load(yaml: yamlString) as? [String: Any]
-//
-//        guard let context = context else {
-//            throw GeneratorInputError.invalidYaml
-//        }
-//
-//        return context
-//    }
-//}
-//
-//public extension GeneratorInput where Self == YamlInput {
-//    static func yamlInput(using file: String) -> Self {
-//        YamlInput(file: file)
-//    }
-//}
+public struct PLISTInput: GeneratorInput {
+    public let file: String
+
+    public init(file: String) {
+        self.file = file
+    }
+
+    public func buildContext() throws -> [String: Any] {
+        let data = try Data(contentsOf: URL(fileURLWithPath: file))
+        let context = try PropertyListSerialization.propertyList(
+            from: data,
+            format: nil)
+
+        guard let context = context as? [String: Any] else {
+            throw GeneratorInputError.invalidInputFile
+        }
+
+        return context
+    }
+}
+
+public extension GeneratorInput where Self == PLISTInput {
+    static func plistInput(using file: String) -> Self {
+        PLISTInput(file: file)
+    }
+}
 
 // MARK: - Dictionary
 

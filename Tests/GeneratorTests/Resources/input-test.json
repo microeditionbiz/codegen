@@ -1,0 +1,8 @@
+{
+    "list": ["first item", "second item"],
+    "dictionary": {
+        "keyString": "valueA",
+        "keyBool": true,
+        "keyNumber": 12,
+    }
+}

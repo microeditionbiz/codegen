@@ -37,7 +37,12 @@ let package = Package(
         ),
         .testTarget(
             name: "GeneratorTests",
-            dependencies: ["Generator"]
+            dependencies: ["Generator"],
+            resources: [
+                .copy("Resources/input-test.yml"),
+                .copy("Resources/input-test.json"),
+                .copy("Resources/input-test.plist")
+            ]
         ),
     ]
 )
