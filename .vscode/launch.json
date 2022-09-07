@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug codegen",
+            "program": "${workspaceFolder:codegen}/.build/debug/codegen",
+            "args": [],
+            "cwd": "${workspaceFolder:codegen}",
+            "preLaunchTask": "swift: Build Debug codegen"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Release codegen",
+            "program": "${workspaceFolder:codegen}/.build/release/codegen",
+            "args": [],
+            "cwd": "${workspaceFolder:codegen}",
+            "preLaunchTask": "swift: Build Release codegen"
+        }
+    ]
+}
