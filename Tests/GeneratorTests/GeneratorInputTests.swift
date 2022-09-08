@@ -12,39 +12,45 @@ import XCTest
 class GeneratorInputTests: XCTestCase {
 
     func testYAMLInput() throws {
-        let path = try XCTUnwrap(
-            Bundle.module.path(
+        let url = try XCTUnwrap(
+            Bundle.module.url(
                 forResource: "input-test",
-                ofType: "yml"
+                withExtension: "yml"
             )
         )
-        let input: GeneratorInput = .yamlInput(using: path)
+
+        let input = try generatorInput(url: url)
+        XCTAssertNotNil(input as? YAMLInput)
 
         let context = try input.buildContext()
         evaluateContext(context)
     }
 
     func testJSONInput() throws {
-        let path = try XCTUnwrap(
-            Bundle.module.path(
+        let url = try XCTUnwrap(
+            Bundle.module.url(
                 forResource: "input-test",
-                ofType: "json"
+                withExtension: "json"
             )
         )
-        let input: GeneratorInput = .jsonInput(using: path)
+
+        let input = try generatorInput(url: url)
+        XCTAssertNotNil(input as? JSONInput)
 
         let context = try input.buildContext()
         evaluateContext(context)
     }
 
     func testPLISTInput() throws {
-        let path = try XCTUnwrap(
-            Bundle.module.path(
+        let url = try XCTUnwrap(
+            Bundle.module.url(
                 forResource: "input-test",
-                ofType: "plist"
+                withExtension: "plist"
             )
         )
-        let input: GeneratorInput = .plistInput(using: path)
+
+        let input = try generatorInput(url: url)
+        XCTAssertNotNil(input as? PLISTInput)
 
         let context = try input.buildContext()
         evaluateContext(context)

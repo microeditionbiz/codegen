@@ -8,30 +8,39 @@
 import Foundation
 import Yams
 
-public enum GeneratorInputError: Error {
-    case invalidInputFile
-    case invalidPath(String)
-}
-
 public protocol GeneratorInput {
     func buildContext() throws -> [String: Any]
+}
+
+public func generatorInput(url: URL) throws -> GeneratorInput {
+    let pathExtension = url.pathExtension
+    guard !pathExtension.isEmpty else {
+        throw GeneratorError.missingExtension(url)
+    }
+
+    switch pathExtension {
+    case "yml": return .yamlInput(using: url)
+    case "json": return .jsonInput(using: url)
+    case "plist": return .plistInput(using: url)
+    default: throw GeneratorError.unsupportedExtension(pathExtension)
+    }
 }
 
 // MARK: - YAML
 
 public struct YAMLInput: GeneratorInput {
-    public let file: String
+    public let url: URL
 
-    public init(file: String) {
-        self.file = file
+    public init(url: URL) {
+        self.url = url
     }
 
     public func buildContext() throws -> [String: Any] {
-        let yamlString = try String.init(contentsOfFile: file)
-        let context = try Yams.load(yaml: yamlString) as? [String: Any]
+        let data = try Data(contentsOf: url)
+        let context = try Parser(yaml: data).singleRoot()?.any as? [String: Any]
 
         guard let context = context else {
-            throw GeneratorInputError.invalidInputFile
+            throw GeneratorError.invalidInputFileContent
         }
 
         return context
@@ -39,26 +48,26 @@ public struct YAMLInput: GeneratorInput {
 }
 
 public extension GeneratorInput where Self == YAMLInput {
-    static func yamlInput(using file: String) -> Self {
-        YAMLInput(file: file)
+    static func yamlInput(using url: URL) -> Self {
+        YAMLInput(url: url)
     }
 }
 
 // MARK: - JSON
 
 public struct JSONInput: GeneratorInput {
-    public let file: String
+    public let url: URL
 
-    public init(file: String) {
-        self.file = file
+    public init(url: URL) {
+        self.url = url
     }
 
     public func buildContext() throws -> [String: Any] {
-        let data = try Data(contentsOf: URL(fileURLWithPath: file))
+        let data = try Data(contentsOf: url)
         let context = try JSONSerialization.jsonObject(with: data)
 
         guard let context = context as? [String: Any] else {
-            throw GeneratorInputError.invalidInputFile
+            throw GeneratorError.invalidInputFileContent
         }
 
         return context
@@ -66,28 +75,28 @@ public struct JSONInput: GeneratorInput {
 }
 
 public extension GeneratorInput where Self == JSONInput {
-    static func jsonInput(using file: String) -> Self {
-        JSONInput(file: file)
+    static func jsonInput(using url: URL) -> Self {
+        JSONInput(url: url)
     }
 }
 
 // MARK: - PList
 
 public struct PLISTInput: GeneratorInput {
-    public let file: String
+    public let url: URL
 
-    public init(file: String) {
-        self.file = file
+    public init(url: URL) {
+        self.url = url
     }
 
     public func buildContext() throws -> [String: Any] {
-        let data = try Data(contentsOf: URL(fileURLWithPath: file))
+        let data = try Data(contentsOf: url)
         let context = try PropertyListSerialization.propertyList(
             from: data,
             format: nil)
 
         guard let context = context as? [String: Any] else {
-            throw GeneratorInputError.invalidInputFile
+            throw GeneratorError.invalidInputFileContent
         }
 
         return context
@@ -95,8 +104,8 @@ public struct PLISTInput: GeneratorInput {
 }
 
 public extension GeneratorInput where Self == PLISTInput {
-    static func plistInput(using file: String) -> Self {
-        PLISTInput(file: file)
+    static func plistInput(using url: URL) -> Self {
+        PLISTInput(url: url)
     }
 }
 
