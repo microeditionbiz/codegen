@@ -1,6 +1,6 @@
 {% for person in people %}
-// codegen:file:Generated/{{ person.name }}.md
+// codegen:file:begin:Example/Generated/{{ person.name }}.md
 Name: {{ person.name }}
 City: {{ person.city }}
-// codegen:end
+// codegen:file:end
 {% endfor %}

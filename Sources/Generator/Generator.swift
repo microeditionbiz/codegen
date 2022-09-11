@@ -22,12 +22,24 @@ public struct Generator {
 
         rendered = try rendered.format()
 
-        print(rendered)
+        if let files = try FileAnnotationsFinder.files(from: rendered), !files.isEmpty {
+            try files.forEach { (path, content) in
+                print("path", path)
+                print("content", content)
 
-        try rendered.write(
-            toFile: outputFile,
-            atomically: true,
-            encoding: .utf8)
+                try content.write(
+                    toFile: path,
+                    atomically: true,
+                    encoding: .utf8)
+            }
+        } else {
+            print(rendered)
+
+            try rendered.write(
+                toFile: outputFile,
+                atomically: true,
+                encoding: .utf8)
+        }
     }
 
     private func run(context: [String: Any], templateFile: String, outputFile: String) throws {
