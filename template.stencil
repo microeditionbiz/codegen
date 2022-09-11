@@ -1,3 +1,0 @@
-
-// Base prefix name: {{ config.basePrefixName }}
-// Services Prefix Name: {{ config.servicesPrefixName }}
