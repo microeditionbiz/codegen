@@ -1,2 +1,0 @@
-Name: Pablo
-City: Barcelona
