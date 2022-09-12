@@ -9,9 +9,8 @@ import Foundation
 import PathKit
 
 public enum FileAnnotatedContentError: Error {
-    case invalidFileAnnotationFormat
+    case invalidFormat
     case mislocatedEndAnnotation
-    case amountOfBeginEndAnnotationsDontMatch
 }
 
 public struct FileAnnotatedContent {
@@ -32,7 +31,7 @@ public struct FileAnnotatedContent {
         )
 
         guard beginMatches.count == endMatches.count else {
-            throw FileAnnotatedContentError.amountOfBeginEndAnnotationsDontMatch
+            throw FileAnnotatedContentError.invalidFormat
         }
 
         let matches = zip(beginMatches, endMatches)
@@ -41,7 +40,7 @@ public struct FileAnnotatedContent {
 
         for (beginMatch, endMatch) in matches {
             guard beginMatch.numberOfRanges == 2, endMatch.numberOfRanges == 1 else {
-                throw FileAnnotatedContentError.invalidFileAnnotationFormat
+                throw FileAnnotatedContentError.invalidFormat
             }
 
             let beginRange = beginMatch.range(at: 0)
