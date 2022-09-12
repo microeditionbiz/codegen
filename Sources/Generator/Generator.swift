@@ -15,31 +15,7 @@ public struct Generator {
 
     public func run(input: GeneratorInput, templateFile: String, outputFile: String) throws {
         let context = try input.buildContext()
-
-        var rendered = try environment.renderTemplate(
-            name: templateFile,
-            context: context)
-
-        rendered = try rendered.format()
-
-        if let files = try FileAnnotationsFinder.files(from: rendered), !files.isEmpty {
-            try files.forEach { (path, content) in
-                print("path", path)
-                print("content", content)
-
-                try content.write(
-                    toFile: path,
-                    atomically: true,
-                    encoding: .utf8)
-            }
-        } else {
-            print(rendered)
-
-            try rendered.write(
-                toFile: outputFile,
-                atomically: true,
-                encoding: .utf8)
-        }
+        try run(context: context, templateFile: templateFile, outputFile: outputFile)
     }
 
     private func run(context: [String: Any], templateFile: String, outputFile: String) throws {
@@ -49,11 +25,23 @@ public struct Generator {
 
         rendered = try rendered.format()
 
-        print(rendered)
+        if let files = try FileAnnotatedContent.process(using: rendered), !files.isEmpty {
+            try files.forEach(save)
+        } else {
+            try save(content: rendered, at: Path(outputFile))
+        }
+    }
 
-        try rendered.write(
-            toFile: outputFile,
+    private func save(content: String, at path: Path) throws {
+        print("path", path)
+        print("content", content)
+
+        try path.createIntermediateDirectoriesIfNeeded()
+
+        try content.write(
+            toFile: path.string,
             atomically: true,
             encoding: .utf8)
     }
+
 }

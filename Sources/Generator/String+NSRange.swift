@@ -7,7 +7,8 @@
 
 import Foundation
 
-public extension String {
+extension String {
+
     func substring(in range: NSRange) -> Substring {
         let startIndex = self.index(self.startIndex, offsetBy: range.location)
         let endIndex = self.index(self.startIndex, offsetBy: range.location + range.length)
@@ -15,4 +16,5 @@ public extension String {
         let r = startIndex..<endIndex
         return self[r]
     }
+
 }

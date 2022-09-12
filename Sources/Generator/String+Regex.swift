@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension String {
+extension String {
 
     func matches(pattern: String) throws -> [NSTextCheckingResult] {
         let range = NSRange(location: 0, length: self.utf16.count)

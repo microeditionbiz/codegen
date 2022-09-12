@@ -8,15 +8,21 @@
 import Foundation
 import PathKit
 
-public struct FileAnnotationsFinder {
-    public typealias Result = (path: String, content: String)
+public enum FileAnnotatedContentError: Error {
+    case invalidFileAnnotationFormat
+    case mislocatedEndAnnotation
+    case amountOfBeginEndAnnotationsDontMatch
+}
+
+public struct FileAnnotatedContent {
+    public typealias Result = (content: String, path: Path)
 
     public static let mainTag = "codegen"
     public static let fileTag = "file"
     public static let beginTag = "begin"
     public static let endTag = "end"
 
-    public static func files(from string: String) throws -> [Result]? {
+    public static func process(using string: String) throws -> [Result]? {
         let beginMatches = try string.matches(
             pattern: "^\\s*//\\s*\(Self.mainTag):\(Self.fileTag):\(Self.beginTag):(.+)\\s*$"
         )
@@ -25,32 +31,41 @@ public struct FileAnnotationsFinder {
             pattern: "^\\s*//\\s*\(Self.mainTag):\(Self.fileTag):\(Self.endTag)\\s*$"
         )
 
+        guard beginMatches.count == endMatches.count else {
+            throw FileAnnotatedContentError.amountOfBeginEndAnnotationsDontMatch
+        }
+
         let matches = zip(beginMatches, endMatches)
 
         var result: [Result] = []
 
         for (beginMatch, endMatch) in matches {
             guard beginMatch.numberOfRanges == 2, endMatch.numberOfRanges == 1 else {
-                continue
+                throw FileAnnotatedContentError.invalidFileAnnotationFormat
             }
 
             let beginRange = beginMatch.range(at: 0)
+            let beginLocation = beginRange.location + beginRange.length
             let endRange = endMatch.range(at: 0)
+
+            guard endRange.location >= beginLocation else {
+                throw FileAnnotatedContentError.mislocatedEndAnnotation
+            }
 
             let content = String(
                 string.substring(
                     in: .init(
-                        location: beginRange.location + beginRange.length,
-                        length: endRange.location - (beginRange.location + beginRange.length)
+                        location: beginLocation,
+                        length: endRange.location - beginLocation
                     )
                 )
                 .trimmingCharacters(in: .newlines)
             )
 
             let pathRange = beginMatch.range(at: 1)
-            let path = String(string.substring(in: pathRange))
+            let path = Path(String(string.substring(in: pathRange)))
 
-            result.append((path, content))
+            result.append((content, path))
         }
 
         return result.isEmpty ? nil : result
