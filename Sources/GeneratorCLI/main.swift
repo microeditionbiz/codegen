@@ -32,7 +32,7 @@ struct Codegen: ParsableCommand {
             try generator.run(
                 input: generatorInput,
                 templateFile: template,
-                outputFile: output
+                output: output
             )
         } catch {
             print("Error running generator:", error)

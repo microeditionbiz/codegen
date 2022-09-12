@@ -41,7 +41,9 @@ let package = Package(
             resources: [
                 .copy("Resources/input-test.yml"),
                 .copy("Resources/input-test.json"),
-                .copy("Resources/input-test.plist")
+                .copy("Resources/input-test.plist"),
+                .copy("Resources/annotated-template.stencil"),
+                .copy("Resources/template.stencil")
             ]
         ),
     ]

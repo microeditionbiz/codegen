@@ -1,0 +1,4 @@
+{% for person in people %}
+Name: {{ person.name }}
+City: {{ person.city }}
+{% endfor %}

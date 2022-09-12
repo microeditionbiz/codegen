@@ -12,7 +12,22 @@ import PathKit
 class FileAnnotatedContentTests: XCTestCase {
 
     func testValid() throws {
-        let result = try FileAnnotatedContent.process(using: FileAnnotatedContentData.valid)
+        let valid = """
+        //codegen:file:begin:Generated/Pablo.md
+        Name: Pablo
+        City: Barcelona
+        //   codegen:file:end
+         // codegen:file:begin:Gaby.md
+        Name: Gaby
+        City: Barcelona
+             // codegen:file:end
+        //   codegen:file:begin:Generated/Example/Dani.md
+        Name: Dani
+        City: Buenos Aires
+        // codegen:file:end
+        """
+
+        let result = try FileAnnotatedContent.process(using: valid)
 
         guard let result = result else {
             XCTFail()
@@ -51,19 +66,63 @@ class FileAnnotatedContentTests: XCTestCase {
     }
 
     func testInvalidFormat() {
-        XCTAssertThrowsError(try FileAnnotatedContent.process(using: FileAnnotatedContentData.invalidFormat)) { error in
+        let invalidFormat = """
+        // codegen:file:begin:
+        Name: Pablo
+        City: Barcelona
+        // codegen:file:begin:Generated/Gaby.md
+        // codegen:file:end
+        Name: Gaby
+        City: Barcelona
+        // codegen:file:end
+        // codegen:file:begin:Generated/Dani.md
+        Name: Dani
+        City: Buenos Aires
+        // codegen:file:end
+        """
+
+        XCTAssertThrowsError(try FileAnnotatedContent.process(using: invalidFormat)) { error in
             XCTAssertEqual(error as? FileAnnotatedContentError, FileAnnotatedContentError.invalidFormat)
         }
     }
 
     func testMissingEndAnnotation() {
-        XCTAssertThrowsError(try FileAnnotatedContent.process(using: FileAnnotatedContentData.missingEndAnnotation)) { error in
+        let missingEndAnnotation = """
+        // codegen:file:begin:Generated/Pablo.md
+        Name: Pablo
+        City: Barcelona
+        // codegen:file:begin:Generated/Gaby.md
+        Name: Gaby
+        City: Barcelona
+        // codegen:file:end
+        // codegen:file:begin:Generated/Dani.md
+        Name: Dani
+        City: Buenos Aires
+        // codegen:file:end
+        """
+
+        XCTAssertThrowsError(try FileAnnotatedContent.process(using: missingEndAnnotation)) { error in
             XCTAssertEqual(error as? FileAnnotatedContentError, FileAnnotatedContentError.invalidFormat)
         }
     }
 
     func testMisplacedAnotation() {
-        XCTAssertThrowsError(try FileAnnotatedContent.process(using: FileAnnotatedContentData.misplacedAnotation)) { error in
+        let misplacedAnotation = """
+        // codegen:file:end
+        // codegen:file:begin:Generated/Pablo.md
+        Name: Pablo
+        City: Barcelona
+        // codegen:file:begin:Generated/Gaby.md
+        Name: Gaby
+        City: Barcelona
+        // codegen:file:end
+        // codegen:file:begin:Generated/Dani.md
+        Name: Dani
+        City: Buenos Aires
+        // codegen:file:end
+        """
+
+        XCTAssertThrowsError(try FileAnnotatedContent.process(using: misplacedAnotation)) { error in
             XCTAssertEqual(error as? FileAnnotatedContentError, FileAnnotatedContentError.mislocatedEndAnnotation)
         }
     }
