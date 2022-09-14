@@ -58,7 +58,6 @@ public struct FileAnnotatedContent {
                         length: endRange.location - beginLocation
                     )
                 )
-                .trimmingCharacters(in: .newlines)
             )
 
             let pathRange = beginMatch.range(at: 1)
