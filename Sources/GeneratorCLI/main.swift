@@ -35,22 +35,30 @@ struct Codegen: ParsableCommand {
                 output: output
             )
 
-            printResult(.success((generatedFiles, startDate)))
+            print(createOutput(for: .success((generatedFiles, startDate))))
         } catch {
-            printResult(.failure(error))
+            print(createOutput(for: .failure(error)))
         }
     }
 
-    private func printResult(_ result: Result<([String], Date), Error>) {
+    private func createOutput(for result: Result<([String], Date), Error>) -> String {
+        var output = ""
+
         switch result {
         case let .success((generatedFiles, startDate)):
             let count = generatedFiles.count
-            print("\nGenerated \(count) file\(count == 1 ? "" : "s") in \(Date().timeIntervalSince(startDate)) seconds 🚀\n")
-            generatedFiles.forEach { print("·", $0) }
-            print("\n")
+            output = "\nGenerated \(count) file\(count == 1 ? "" : "s")"
+            output += String(format: " in %.4f seconds 🚀\n\n", Date().timeIntervalSince(startDate))
+            output += generatedFiles
+                .map { "· " + $0 }
+                .joined(separator: "\n")
+
         case let .failure(error):
-            print("\nError running generator 😩\n", error, "\n")
+            output = "\nError running generator 😩\n"
+            output += error.localizedDescription
         }
+
+        return output + "\n"
     }
 }
 
