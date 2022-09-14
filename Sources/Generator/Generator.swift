@@ -21,24 +21,31 @@ public struct Generator {
         self.contentWritter = contentWritter
     }
 
-    public func run(input: GeneratorInput, templateFile: String, output: String) throws {
-        let context = try input.buildContext()
-        try run(context: context, templateFile: templateFile, output: output)
+    @discardableResult
+    public func run(input: GeneratorInput, templateFile: String, output: String) throws -> [String] {
+        try run(
+            context: try input.buildContext(),
+            templateFile: templateFile,
+            output: output
+        )
     }
 
-    private func run(context: [String: Any], templateFile: String, output: String) throws {
+    private func run(context: [String: Any], templateFile: String, output: String) throws -> [String] {
         let rendered = try environment.renderTemplate(
             name: templateFile,
-            context: context)
+            context: context
+        )
 
 //        rendered = try rendered.format()
 
         if let files = try FileAnnotatedContent.process(using: rendered), !files.isEmpty {
-            try files
+            let filesWithOutputPath = files
                 .map { ($0.content, Path(output) + $0.path) }
-                .forEach(contentWritter.save)
+            try filesWithOutputPath.forEach(contentWritter.save)
+            return filesWithOutputPath.map(\.1.string)
         } else {
             try contentWritter.save(content: rendered, at: Path(output))
+            return [output]
         }
     }
 

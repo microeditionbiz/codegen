@@ -24,18 +24,25 @@ struct Codegen: ParsableCommand {
     var output: String
 
     mutating func run() throws {
+        let startDate = Date()
         let generatorInput = try generatorInput(url: URL(fileURLWithPath: input))
 
         let generator = Generator(templatesPath: [""])
 
         do {
-            try generator.run(
+            let generatedFiles = try generator.run(
                 input: generatorInput,
                 templateFile: template,
                 output: output
             )
+
+            let count = generatedFiles.count
+            print("\nGenerated \(count) file\(count == 1 ? "" : "s") in \(Date().timeIntervalSince(startDate)) seconds 🚀:\n")
+            generatedFiles.forEach { print("·", $0) }
+            print("\n")
+
         } catch {
-            print("Error running generator:", error)
+            print("\nError running generator 😩:\n", error, "\n")
         }
     }
 }
