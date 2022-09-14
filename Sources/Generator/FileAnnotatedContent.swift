@@ -44,10 +44,10 @@ public struct FileAnnotatedContent {
             }
 
             let beginRange = beginMatch.range(at: 0)
-            let beginLocation = beginRange.location + beginRange.length
+            let beginLocation = beginRange.location + beginRange.length + 1
             let endRange = endMatch.range(at: 0)
 
-            guard endRange.location >= beginLocation else {
+            guard endRange.location > beginLocation else {
                 throw FileAnnotatedContentError.mislocatedEndAnnotation
             }
 
@@ -55,7 +55,7 @@ public struct FileAnnotatedContent {
                 string.substring(
                     in: .init(
                         location: beginLocation,
-                        length: endRange.location - beginLocation
+                        length: endRange.location - 1 - beginLocation
                     )
                 )
             )
