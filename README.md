@@ -47,7 +47,7 @@ In case that you want to generate multiple files from one template or just set a
 Imagine that you have an input YAML of people:
 
 ```yaml
-people
+people:
   - name: "Pablo"
     city: "Barcelona"
     profession: "Software Engineer"
