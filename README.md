@@ -46,7 +46,7 @@ In case that you want to generate multiple files from one template or just set a
 
 Imagine that you have an input YAML of people:
 
-```
+```yaml
 people
   - name: "Pablo"
     city: "Barcelona"
@@ -61,10 +61,10 @@ people
 
 If you want to generate one output file for each person, you can create a template like:
 
-```
+```stencil
 {% for person in people %}
 // codegen:file:begin:{{ person.name }}.md
-{{ person.name }} is from {{ person.city }} and work as {{ person.profession }}.
+{{ person.name }} is from {{ person.city }} and works as {{ person.profession }}.
 // codegen:file:end
 {% endfor %}
 ```
@@ -74,19 +74,19 @@ That will generate three files:
 Pablo.md
 
 ```
-Pablo is from Barcelona and work as a Software Engineer.
+Pablo is from Barcelona and works as a Software Engineer.
 ```
 
 John.md
 
 ```
-John is from New York and work as a Graphic Designer.
+John is from New York and works as a Graphic Designer.
 ```
 
 Akira.md
 
 ```
-Akira is from Tokyo and work as a Writer.
+Akira is from Tokyo and works as a Writer.
 ```
 
 Additionaly, you can define some directory as part of the file name: 
