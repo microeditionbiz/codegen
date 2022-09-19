@@ -6,21 +6,34 @@
 //
 
 import Foundation
-import PathKit
+
+public enum ContentWritterError: Error {
+    case pathExist(String)
+}
 
 public protocol ContentWritter {
-    func save(content: String, at path: Path) throws
+    func save(content: String, at path: String, override: Bool) throws
 }
 
 public struct DefaultContentWritter: ContentWritter {
+    private let fileManager: FileManager
 
-    public init() { }
+    public init(fileManager: FileManager = .default) {
+        self.fileManager = fileManager
+    }
 
-    public func save(content: String, at path: Path) throws {
-        try path.createIntermediateDirectoriesIfNeeded()
+    public func save(content: String, at path: String, override: Bool) throws {
+        switch (fileManager.fileExists(atPath: path), override) {
+        case (true, false):
+            throw ContentWritterError.pathExist(path)
+        case (true, true):
+            break
+        case (false, _):
+            try fileManager.createIntermediateDirectoriesIfNeeded(path)
+        }
 
         try content.write(
-            toFile: path.string,
+            toFile: path,
             atomically: true,
             encoding: .utf8)
     }

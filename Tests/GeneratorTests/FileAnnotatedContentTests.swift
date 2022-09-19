@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import PathKit
+
 @testable import Generator
 
 class FileAnnotatedContentTests: XCTestCase {
@@ -27,16 +27,11 @@ class FileAnnotatedContentTests: XCTestCase {
         // codegen:file:end
         """
 
-        let result = try FileAnnotatedContent.process(using: valid)
-
-        guard let result = result else {
-            XCTFail()
-            return
-        }
+        let result = try FileAnnotatedContent.process(content: valid)
 
         XCTAssertEqual(result.count, 3)
 
-        XCTAssertEqual(result[0].path, Path("Generated/Pablo.md"))
+        XCTAssertEqual(result[0].path, "Generated/Pablo.md")
         XCTAssertEqual(
             result[0].content,
             """
@@ -45,7 +40,7 @@ class FileAnnotatedContentTests: XCTestCase {
             """
         )
 
-        XCTAssertEqual(result[1].path, Path("Gaby.md"))
+        XCTAssertEqual(result[1].path, "Gaby.md")
         XCTAssertEqual(
             result[1].content,
             """
@@ -54,7 +49,7 @@ class FileAnnotatedContentTests: XCTestCase {
             """
         )
 
-        XCTAssertEqual(result[2].path, Path("Generated/Example/Dani.md"))
+        XCTAssertEqual(result[2].path, "Generated/Example/Dani.md")
         XCTAssertEqual(
             result[2].content,
             """
@@ -81,7 +76,7 @@ class FileAnnotatedContentTests: XCTestCase {
         // codegen:file:end
         """
 
-        XCTAssertThrowsError(try FileAnnotatedContent.process(using: invalidFormat)) { error in
+        XCTAssertThrowsError(try FileAnnotatedContent.process(content: invalidFormat)) { error in
             XCTAssertEqual(error as? FileAnnotatedContentError, FileAnnotatedContentError.invalidFormat)
         }
     }
@@ -101,7 +96,7 @@ class FileAnnotatedContentTests: XCTestCase {
         // codegen:file:end
         """
 
-        XCTAssertThrowsError(try FileAnnotatedContent.process(using: missingEndAnnotation)) { error in
+        XCTAssertThrowsError(try FileAnnotatedContent.process(content: missingEndAnnotation)) { error in
             XCTAssertEqual(error as? FileAnnotatedContentError, FileAnnotatedContentError.invalidFormat)
         }
     }
@@ -122,7 +117,7 @@ class FileAnnotatedContentTests: XCTestCase {
         // codegen:file:end
         """
 
-        XCTAssertThrowsError(try FileAnnotatedContent.process(using: misplacedAnotation)) { error in
+        XCTAssertThrowsError(try FileAnnotatedContent.process(content: misplacedAnotation)) { error in
             XCTAssertEqual(error as? FileAnnotatedContentError, FileAnnotatedContentError.mislocatedEndAnnotation)
         }
     }

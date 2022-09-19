@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import PathKit
 
 public enum FileAnnotatedContentError: Error {
     case invalidFormat
@@ -14,14 +13,14 @@ public enum FileAnnotatedContentError: Error {
 }
 
 public struct FileAnnotatedContent {
-    public typealias Result = (content: String, path: Path)
+    public typealias Result = (content: String, path: String)
 
     public static let mainTag = "codegen"
     public static let fileTag = "file"
     public static let beginTag = "begin"
     public static let endTag = "end"
 
-    public static func process(using string: String) throws -> [Result]? {
+    public static func process(content string: String) throws -> [Result] {
         let beginMatches = try string.matches(
             pattern: "^\\s*//\\s*\(Self.mainTag):\(Self.fileTag):\(Self.beginTag):(.+)\\s*$"
         )
@@ -61,12 +60,12 @@ public struct FileAnnotatedContent {
             )
 
             let pathRange = beginMatch.range(at: 1)
-            let path = Path(String(string.substring(in: pathRange)))
+            let path = String(string.substring(in: pathRange))
 
             result.append((content, path))
         }
 
-        return result.isEmpty ? nil : result
+        return result
     }
 
     private static func processResult(_ result: NSTextCheckingResult, from string: String) {
@@ -79,4 +78,19 @@ public struct FileAnnotatedContent {
         }
     }
 
+}
+
+public extension Array where Element == FileAnnotatedContent.Result {
+    func appendRootDirectory(_ root: String?) -> Self {
+        guard let root = root else {
+            return self
+        }
+
+        let pathBuilder: (String, String) -> String =
+        root.hasSuffix("/") ?
+        { $0 + $1 } :
+        { $0 + "/" + $1}
+
+        return self.map { ($0.content, pathBuilder(root, $0.path)) }
+    }
 }

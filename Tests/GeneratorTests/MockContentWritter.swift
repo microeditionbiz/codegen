@@ -6,13 +6,13 @@
 //
 
 import Foundation
-import PathKit
+
 @testable import Generator
 
 class MockContentWritter: ContentWritter {
-    var saved: [(content: String, path: Path)] = []
+    var saved: [(content: String, path: String, override: Bool)] = []
 
-    func save(content: String, at path: Path) throws {
-        saved.append((content: content, path: path))
+    func save(content: String, at path: String, override: Bool) throws {
+        saved.append((content: content, path: path, override: override))
     }
 }

@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import PathKit
+
 @testable import Generator
 
 final class GeneratorTests: XCTestCase {
@@ -45,7 +45,8 @@ final class GeneratorTests: XCTestCase {
         try generator.run(
             input: .dictionaryInput(using: Self.input),
             templateFile: template,
-            output: "output.md")
+            output: "output.md",
+            override: true)
 
         let expectedOutput = """
         Name: Pablo
@@ -58,7 +59,7 @@ final class GeneratorTests: XCTestCase {
         """
 
         XCTAssertEqual(mockContentWritter.saved.count, 1)
-        XCTAssertEqual(mockContentWritter.saved.first!.path, Path("output.md"))
+        XCTAssertEqual(mockContentWritter.saved.first!.path, "output.md")
         XCTAssertEqual(mockContentWritter.saved.first!.content, expectedOutput)
     }
 
@@ -79,12 +80,13 @@ final class GeneratorTests: XCTestCase {
         try generator.run(
             input: .dictionaryInput(using: Self.input),
             templateFile: template,
-            output: "Output")
+            output: "Output",
+            override: true)
 
         let expectedPaths = [
-            Path("Output/Example/Generated/Pablo.md"),
-            Path("Output/Example/Generated/Gaby.md"),
-            Path("Output/Example/Generated/Dani.md"),
+            "Output/Example/Generated/Pablo.md",
+            "Output/Example/Generated/Gaby.md",
+            "Output/Example/Generated/Dani.md",
         ]
 
         let expectedOutputs = [
