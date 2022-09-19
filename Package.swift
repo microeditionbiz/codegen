@@ -15,7 +15,6 @@ let package = Package(
         .package(url: "https://github.com/kylef/PathKit", from: "1.0.0"),
         .package(url: "https://github.com/SwiftGen/StencilSwiftKit", from: "2.0.0"),
         .package(url: "https://github.com/stencilproject/Stencil.git", from: "0.15.0"),
-        .package(url: "https://github.com/nicklockwood/SwiftFormat", from: "0.49.0"),
     ],
     targets: [
         .executableTarget(
@@ -31,8 +30,7 @@ let package = Package(
                 "Yams",
                 "PathKit",
                 "StencilSwiftKit",
-                "Stencil",
-                "SwiftFormat"
+                "Stencil"
             ]
         ),
         .testTarget(

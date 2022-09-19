@@ -49,8 +49,6 @@ public struct Generator {
             context: context
         )
 
-//        rendered = try rendered.format()
-
         let files = try FileAnnotatedContent.process(content: rendered)
             .appendRootDirectory(output)
 
