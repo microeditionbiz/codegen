@@ -22,6 +22,8 @@ $ cd .build/release
 $ cp -f codegen /usr/local/bin/codegen
 ```
 
+Alternatively, you can run `$ sh install.sh` from the root folder.
+
 * Homebrew
 
 🚧coming soon 🚧
