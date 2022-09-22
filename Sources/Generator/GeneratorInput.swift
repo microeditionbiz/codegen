@@ -8,21 +8,43 @@
 import Foundation
 import Yams
 
+public enum GeneratorInputError: Error {
+    case missingExtension(URL)
+    case unsupportedExtension(String)
+    case invalidInputFileContent(URL)
+    case invalidInputFormat(String)
+}
+
 public protocol GeneratorInput {
     func buildContext() throws -> [String: Any]
 }
 
-public func generatorInput(url: URL) throws -> GeneratorInput {
-    let pathExtension = url.pathExtension
-    guard !pathExtension.isEmpty else {
-        throw GeneratorError.missingExtension(url)
-    }
+public func generatorInput(from string: String) throws -> GeneratorInput {
+    // Check if it's a dictionary
+    if try string.containsMatch(pattern: "^\\{.+\\}$") {
+        guard
+            let data = string.data(using: .utf8),
+            let dictionary = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+        else {
+            throw GeneratorInputError.invalidInputFormat(string)
+        }
 
-    switch pathExtension {
-    case "yml": return .yamlInput(using: url)
-    case "json": return .jsonInput(using: url)
-    case "plist": return .plistInput(using: url)
-    default: throw GeneratorError.unsupportedExtension(pathExtension)
+        return .dictionaryInput(using: dictionary)
+    } else {
+        let url = URL(fileURLWithPath: string)
+
+        let pathExtension = url.pathExtension
+
+        guard !pathExtension.isEmpty else {
+            throw GeneratorInputError.missingExtension(url)
+        }
+
+        switch pathExtension {
+        case "yml": return .yamlInput(using: url)
+        case "json": return .jsonInput(using: url)
+        case "plist": return .plistInput(using: url)
+        default: throw GeneratorInputError.unsupportedExtension(pathExtension)
+        }
     }
 }
 
@@ -40,7 +62,7 @@ public struct YAMLInput: GeneratorInput {
         let context = try Parser(yaml: data).singleRoot()?.any as? [String: Any]
 
         guard let context = context else {
-            throw GeneratorError.invalidInputFileContent
+            throw GeneratorInputError.invalidInputFileContent(url)
         }
 
         return context
@@ -67,7 +89,7 @@ public struct JSONInput: GeneratorInput {
         let context = try JSONSerialization.jsonObject(with: data)
 
         guard let context = context as? [String: Any] else {
-            throw GeneratorError.invalidInputFileContent
+            throw GeneratorInputError.invalidInputFileContent(url)
         }
 
         return context
@@ -96,7 +118,7 @@ public struct PLISTInput: GeneratorInput {
             format: nil)
 
         guard let context = context as? [String: Any] else {
-            throw GeneratorError.invalidInputFileContent
+            throw GeneratorInputError.invalidInputFileContent(url)
         }
 
         return context

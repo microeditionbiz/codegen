@@ -30,7 +30,7 @@ struct Codegen: ParsableCommand {
     func run() {
         do {
             let startDate = Date()
-            let generatorInput = try generatorInput(url: URL(fileURLWithPath: input))
+            let generatorInput = try generatorInput(from: input)
             let generator = Generator(templatesPath: [""])
 
             let generatedFiles = try generator.run(
@@ -40,30 +40,29 @@ struct Codegen: ParsableCommand {
                 override: override
             )
 
-            print(createOutput(for: .success((generatedFiles, startDate))))
+            print(createOutput(for: generatedFiles, startedAt: startDate))
         } catch {
-            print(createOutput(for: .failure(error)))
+            print(createOutput(for: error))
         }
     }
 
-    private func createOutput(for result: Result<([String], Date), Error>) -> String {
-        var output = ""
+    private func createOutput(for files: [String], startedAt date: Date) -> String {
+        let count = files.count
 
-        switch result {
-        case let .success((generatedFiles, startDate)):
-            let count = generatedFiles.count
-            output = "\nGenerated \(count) file\(count == 1 ? "" : "s")"
-            output += String(format: " in %.4f seconds 🚀\n\n", Date().timeIntervalSince(startDate))
-            output += generatedFiles
-                .map { "· " + $0 }
-                .joined(separator: "\n")
+        return .init(
+            format: "\nGenerated %d file%@ in %.4f seconds 🚀\n\n%@\n",
+            count,
+            count == 1 ? "" : "s",
+            Date().timeIntervalSince(date),
+            files.map { "- " + $0 }.joined(separator: "\n")
+        )
+    }
 
-        case let .failure(error):
-            output = "\nError running generator 😩\n"
-            output += error.localizedDescription
-        }
-
-        return output + "\n"
+    private func createOutput(for error: Error) -> String {
+        .init(
+            format:"\nError running generator 😩\n\n%@\n",
+            error.localizedDescription
+        )
     }
 }
 

@@ -119,14 +119,18 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-i example/people.yml"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-i &apos;{&quot;names&quot;: [&quot;J.J.&quot;, &quot;April&quot;], &quot;years&quot;: [25, 29]}&apos;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-t example/template.stencil"
+            argument = "-t Example/template.stencil"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-o example/generated.swift"
+            argument = "-o Example/generated-xcode.swift"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

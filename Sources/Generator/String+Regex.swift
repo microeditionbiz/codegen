@@ -21,4 +21,8 @@ extension String {
         return regex.firstMatch(in: self, options: [], range: range)
     }
 
+    func containsMatch(pattern: String) throws -> Bool {
+        try firstMatch(pattern: pattern) != nil
+    }
+
 }

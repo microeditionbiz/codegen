@@ -12,14 +12,14 @@ import XCTest
 class GeneratorInputTests: XCTestCase {
 
     func testYAMLInput() throws {
-        let url = try XCTUnwrap(
-            Bundle.module.url(
+        let path = try XCTUnwrap(
+            Bundle.module.path(
                 forResource: "input-test",
-                withExtension: "yml"
+                ofType: "yml"
             )
         )
 
-        let input = try generatorInput(url: url)
+        let input = try generatorInput(from: path)
         XCTAssertNotNil(input as? YAMLInput)
 
         let context = try input.buildContext()
@@ -27,14 +27,14 @@ class GeneratorInputTests: XCTestCase {
     }
 
     func testJSONInput() throws {
-        let url = try XCTUnwrap(
-            Bundle.module.url(
+        let path = try XCTUnwrap(
+            Bundle.module.path(
                 forResource: "input-test",
-                withExtension: "json"
+                ofType: "json"
             )
         )
 
-        let input = try generatorInput(url: url)
+        let input = try generatorInput(from: path)
         XCTAssertNotNil(input as? JSONInput)
 
         let context = try input.buildContext()
@@ -42,14 +42,14 @@ class GeneratorInputTests: XCTestCase {
     }
 
     func testPLISTInput() throws {
-        let url = try XCTUnwrap(
-            Bundle.module.url(
+        let path = try XCTUnwrap(
+            Bundle.module.path(
                 forResource: "input-test",
-                withExtension: "plist"
+                ofType: "plist"
             )
         )
 
-        let input = try generatorInput(url: url)
+        let input = try generatorInput(from: path)
         XCTAssertNotNil(input as? PLISTInput)
 
         let context = try input.buildContext()
@@ -57,10 +57,10 @@ class GeneratorInputTests: XCTestCase {
     }
 
     func testDictionaryInput() throws {
-        let input: GeneratorInput = .dictionaryInput(using: [
-            "list": ["first item", "second item"],
-            "dictionary": ["keyString": "valueA", "keyBool": true, "keyNumber": 12]
-        ])
+        let string = "{\"list\": [\"first item\", \"second item\"], \"dictionary\": {\"keyString\": \"valueA\", \"keyBool\": true, \"keyNumber\": 12 }}"
+
+        let input = try generatorInput(from: string)
+        XCTAssertNotNil(input as? DictionaryInput)
 
         let context = try input.buildContext()
         evaluateContext(context)
