@@ -30,47 +30,45 @@ public struct Generator {
         output: String?,
         override: Bool
     ) throws -> [String] {
-        try run(
-            context: try input.buildContext(),
-            templateFile: templateFile,
-            output: output,
+        try write(
+            try generateOutput(
+                from: try input.buildContext(),
+                templateFile: templateFile,
+                outputLocation: output),
             override: override
         )
     }
 
-    private func run(
-        context: [String: Any],
+    private func generateOutput(
+        from context: [String: Any],
         templateFile: String,
-        output: String?,
-        override: Bool
-    ) throws -> [String] {
+        outputLocation: String?
+    ) throws -> [(content: String, path: String)] {
         let rendered = try environment.renderTemplate(
             name: templateFile,
             context: context
         )
 
-        let files = try FileAnnotatedContent.process(content: rendered)
-            .appendRootDirectory(output)
+        let output = try FileAnnotatedContent.process(content: rendered)
 
-        if files.isEmpty {
-            let file = output ?? Self.defaultAutogenerateFilename
+        if output.isEmpty {
+            return [(rendered, outputLocation ?? Self.defaultAutogenerateFilename)]
+        } else {
+            let appendRootDirectory = appendRootDirectory(outputLocation)
+            return output.map(appendRootDirectory)
+        }
+    }
+
+    private func write(_ output: [(String, path: String)], override: Bool) throws -> [String] {
+        try output.forEach { (content, path) in
             try contentWritter.save(
-                content: rendered,
-                at: file,
+                content: content,
+                at: path,
                 override: override
             )
-            return [file]
-        } else {
-            try files.forEach { (content, path) in
-                try contentWritter.save(
-                    content: content,
-                    at: path,
-                    override: override
-                )
-            }
-
-            return files.map(\.path)
         }
+
+        return output.map(\.path)
     }
 
 }

@@ -40,7 +40,7 @@ public func generatorInput(from string: String) throws -> GeneratorInput {
         }
 
         switch pathExtension {
-        case "yml": return .yamlInput(using: url)
+        case "yml", "yaml": return .yamlInput(using: url)
         case "json": return .jsonInput(using: url)
         case "plist": return .plistInput(using: url)
         default: throw GeneratorInputError.unsupportedExtension(pathExtension)

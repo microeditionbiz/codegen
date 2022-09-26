@@ -33,11 +33,7 @@ public struct FileAnnotatedContent {
             throw FileAnnotatedContentError.invalidFormat
         }
 
-        let matches = zip(beginMatches, endMatches)
-
-        var result: [Result] = []
-
-        for (beginMatch, endMatch) in matches {
+        return try zip(beginMatches, endMatches).map { (beginMatch, endMatch) in
             guard beginMatch.numberOfRanges == 2, endMatch.numberOfRanges == 1 else {
                 throw FileAnnotatedContentError.invalidFormat
             }
@@ -62,10 +58,8 @@ public struct FileAnnotatedContent {
             let pathRange = beginMatch.range(at: 1)
             let path = String(string.substring(in: pathRange))
 
-            result.append((content, path))
+            return (content, path)
         }
-
-        return result
     }
 
     private static func processResult(_ result: NSTextCheckingResult, from string: String) {
@@ -80,17 +74,16 @@ public struct FileAnnotatedContent {
 
 }
 
-public extension Array where Element == FileAnnotatedContent.Result {
-    func appendRootDirectory(_ root: String?) -> Self {
-        guard let root = root else {
-            return self
+func appendRootDirectory(_ root: String?) -> (FileAnnotatedContent.Result) -> FileAnnotatedContent.Result {
+    let root = root.map {
+        $0.hasSuffix("/") ? $0 : $0 + "/"
+    }
+
+    return { result in
+        if let root = root {
+            return (content: result.content, path: root + result.path)
+        } else {
+            return result
         }
-
-        let pathBuilder: (String, String) -> String =
-        root.hasSuffix("/") ?
-        { $0 + $1 } :
-        { $0 + "/" + $1}
-
-        return self.map { ($0.content, pathBuilder(root, $0.path)) }
     }
 }

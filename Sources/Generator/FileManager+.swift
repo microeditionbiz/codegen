@@ -8,6 +8,7 @@
 import Foundation
 
 extension FileManager {
+    
     func createIntermediateDirectoriesIfNeeded(_ path: String) throws {
         let componentsWithoutLast = path.components(separatedBy: "/").dropLast()
 
@@ -23,4 +24,5 @@ extension FileManager {
             attributes: nil
         )
     }
+
 }
