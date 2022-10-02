@@ -1,0 +1,55 @@
+{
+  "parameters": {
+    "backgroundColor": {
+      "defaultValue": {
+        "value": "red"
+      },
+      "description": "Defines the main screen background color",
+      "valueType": "STRING"
+    },
+    "textColor": {
+      "defaultValue": {
+        "value": "white"
+      },
+      "description": "This is the color used by the main text",
+      "valueType": "STRING"
+    },
+    "title": {
+      "defaultValue": {
+        "value": "Hello"
+      },
+      "description": "Text presented as main title",
+      "valueType": "STRING"
+    },
+    "subtitleVisible": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "If the subtitle has to be presented or not.",
+      "valueType": "BOOLEAN"
+    },
+    "subtitleText": {
+      "defaultValue": {
+        "value": "there!"
+      },
+      "description": "Text to present as subtitle",
+      "valueType": "STRING"
+    },
+    "verticalOffset": {
+      "defaultValue": {
+        "value": "0"
+      },
+      "description": "Defines a vertical offset for the main content.",
+      "valueType": "NUMBER"
+    }
+  },
+  "version": {
+    "versionNumber": "1",
+    "updateTime": "2022-09-27T22:54:11.373131Z",
+    "updateUser": {
+      "email": "romero7116@gmail.com"
+    },
+    "updateOrigin": "CONSOLE",
+    "updateType": "INCREMENTAL_UPDATE"
+  }
+}
