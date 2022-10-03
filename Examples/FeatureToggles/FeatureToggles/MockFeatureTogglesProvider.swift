@@ -15,8 +15,6 @@ public struct MockFeatureTogglesProvider: FeatureTogglesProvider {
         }
     }
 
-    public func value<T>(_ type: T.Type, for key: String, fallback: T) -> T {
-        return fallback
-    }
+    public func value<T>(_ type: T.Type, for key: String) -> T? { nil }
 
 }

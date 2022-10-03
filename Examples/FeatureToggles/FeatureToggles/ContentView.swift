@@ -11,7 +11,7 @@ struct ContentView: View {
     let featureToggles: FeatureTogglesProvider
 
     var body: some View {
-        Text(featureToggles.title)
+        Text(featureToggles.value(.title))
             .padding()
     }
 }

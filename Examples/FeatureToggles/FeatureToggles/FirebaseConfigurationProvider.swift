@@ -9,7 +9,6 @@ import Foundation
 import FirebaseCore
 import FirebaseRemoteConfig
 
-
 public final class FirebaseConfigurationProvider: FeatureTogglesProvider {
     private let remoteConfig: RemoteConfig
 
@@ -37,29 +36,23 @@ public final class FirebaseConfigurationProvider: FeatureTogglesProvider {
         }
     }
 
-    private func remoteConfigValue(for key: String) -> RemoteConfigValue? {
+    public func value<T>(_ type: T.Type, for key: String) -> T? {
         let remoteConfigValue = RemoteConfig.remoteConfig().configValue(
             forKey: key,
             source: .remote
         )
 
-        return remoteConfigValue.source == .remote ? remoteConfigValue : nil
-    }
-
-    public func value<T>(_ type: T.Type, for key: String, fallback: T) -> T {
-        guard let remoteConfigValue = remoteConfigValue(for: key) else {
-            return fallback
-        }
+        guard remoteConfigValue.source == .remote else { return nil }
 
         switch type {
         case is String.Type:
-            return (remoteConfigValue.stringValue as? T) ?? fallback
+            return remoteConfigValue.stringValue as? T
         case is NSNumber.Type:
-            return (remoteConfigValue.numberValue as? T) ?? fallback
+            return remoteConfigValue.numberValue as? T
         case is Bool.Type:
-            return (remoteConfigValue.boolValue as? T) ?? fallback
+            return remoteConfigValue.boolValue as? T
         default:
-            return (remoteConfigValue.jsonValue as? T) ?? fallback
+            return remoteConfigValue.jsonValue as? T
         }
     }
 

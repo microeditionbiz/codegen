@@ -7,17 +7,33 @@
 
 import Foundation
 
-public extension FeatureTogglesProvider {
+public extension FeatureToggle where T == String {
     /// Defines the main screen background color
-    var backgroundColor: String { value(String.self, for: "backgroundColor", fallback: "red") }
-    /// Text to present as subtitle
-    var subtitleText: String { value(String.self, for: "subtitleText", fallback: "there!") }
-    /// If the subtitle has to be presented or not.
-    var subtitleVisible: Bool { value(Bool.self, for: "subtitleVisible", fallback: true) }
-    /// This is the color used by the main text
-    var textColor: String { value(String.self, for: "textColor", fallback: "white") }
-    /// Text presented as main title
-    var title: String { value(String.self, for: "title", fallback: "Hello") }
-    /// Defines a vertical offset for the main content.
-    var verticalOffset: NSNumber { value(NSNumber.self, for: "verticalOffset", fallback: 0) }
+    static let backgroundColor: FeatureToggle = .init(key: "backgroundColor", fallback: "red")
 }
+
+public extension FeatureToggle where T == String {
+    /// Text to present as subtitle
+    static let subtitleText: FeatureToggle = .init(key: "subtitleText", fallback: "there!")
+}
+
+public extension FeatureToggle where T == String {
+    /// This is the color used by the main text
+    static let textColor: FeatureToggle = .init(key: "textColor", fallback: "white")
+}
+
+public extension FeatureToggle where T == String {
+    /// Text presented as main title
+    static let title: FeatureToggle = .init(key: "title", fallback: "Hello")
+}
+
+public extension FeatureToggle where T == NSNumber {
+    /// Defines a vertical offset for the main content.
+    static let verticalOffset: FeatureToggle = .init(key: "verticalOffset", fallback: 0)
+}
+
+public extension FeatureToggle where T == Bool {
+    /// If the subtitle has to be presented or not.
+    static let subtitleVisible: FeatureToggle = .init(key: "subtitleVisible", fallback: true)
+}
+
