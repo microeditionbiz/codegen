@@ -1,5 +1,5 @@
 //
-//  MockFeatureTogglesProvider.swift
+//  FakeFeatureTogglesProvider.swift
 //  FeatureToggles
 //
 //  Created by Pablo Ezequiel Romero Giovannoni on 02/10/2022.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MockFeatureTogglesProvider: FeatureTogglesProvider {
+public struct FakeFeatureTogglesProvider: FeatureTogglesProvider {
 
     public func fetchFeatureToggles(_ completion: @escaping (Result<Void, Error>) -> Void) {
         DispatchQueue.main.async {

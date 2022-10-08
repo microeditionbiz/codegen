@@ -1,1 +1,0 @@
-codegen -i remote-config.json -t template.stencil -o FeatureToggles.generated.swift --override
