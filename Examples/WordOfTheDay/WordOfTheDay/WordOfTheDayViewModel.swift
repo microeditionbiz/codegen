@@ -10,7 +10,7 @@ import SwiftUI
 final class WordOfTheDayViewModel: ObservableObject {
     typealias Context = HasFeatureTogglesProvider
 
-    let words: [String]?
+    private let words: [String]?
     let title: String?
 
     @Published var word: String
