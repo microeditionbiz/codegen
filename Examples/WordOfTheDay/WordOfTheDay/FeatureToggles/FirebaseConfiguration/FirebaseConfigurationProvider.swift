@@ -22,7 +22,8 @@ public final class FirebaseConfigurationProvider: FeatureTogglesProvider {
         remoteConfig.configSettings = settings
 
         remoteConfig.activate()
-
+        remoteConfig.fetch()
+        
         self.remoteConfig = remoteConfig
     }
 

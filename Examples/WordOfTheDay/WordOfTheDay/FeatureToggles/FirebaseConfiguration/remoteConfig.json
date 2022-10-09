@@ -1,0 +1,32 @@
+{
+  "parameters": {
+    "words": {
+      "defaultValue": {
+        "value": "{\"words\": [\"Car\", \"Holiday\", \"Rain\", \"Elephant\"]}"
+      },
+      "description": "Possible words to be presented.",
+      "valueType": "JSON"
+    },
+    "title": {
+      "defaultValue": {
+        "value": "Word of the day!"
+      },
+      "description": "Text presented as main title.",
+      "valueType": "STRING"
+    },
+    "mainColor": {
+      "defaultValue": {
+        "value": "685634"
+      },
+      "description": "Current main color.",
+      "valueType": "STRING"
+    },
+    "accentColor": {
+      "defaultValue": {
+        "value": "FFFFFF"
+      },
+      "description": "Current accent color.",
+      "valueType": "STRING"
+    }
+  }
+}

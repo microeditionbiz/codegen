@@ -8,27 +8,21 @@
 
 import Foundation
 
+public typealias JSON = [String: Any]
+
 public extension FeatureToggle where T == String {
-    /// Defines the main screen background color
-    static let backgroundColor: FeatureToggle = .init(key: "backgroundColor", fallback: "red")
+    /// Current accent color.
+    static let accentColor: FeatureToggle = .init(key: "accentColor", fallback: "FFFFFF")
 
-    /// Text to present as subtitle
-    static let subtitleText: FeatureToggle = .init(key: "subtitleText", fallback: "there!")
+    /// Current main color.
+    static let mainColor: FeatureToggle = .init(key: "mainColor", fallback: "685634")
 
-    /// This is the color used by the main text
-    static let textColor: FeatureToggle = .init(key: "textColor", fallback: "white")
-
-    /// Text presented as main title
-    static let title: FeatureToggle = .init(key: "title", fallback: "Hello")
+    /// Text presented as main title.
+    static let title: FeatureToggle = .init(key: "title", fallback: "Word of the day!")
 }
 
-public extension FeatureToggle where T == NSNumber {
-    /// Defines a vertical offset for the main content.
-    static let verticalOffset: FeatureToggle = .init(key: "verticalOffset", fallback: 0)
-}
-
-public extension FeatureToggle where T == Bool {
-    /// If the subtitle has to be presented or not.
-    static let subtitleVisible: FeatureToggle = .init(key: "subtitleVisible", fallback: true)
+public extension FeatureToggle where T == JSON {
+    /// Possible words to be presented.
+    static let words: FeatureToggle = .init(key: "words", fallback: ["words": ["Car", "Holiday", "Rain", "Elephant"]])
 }
 

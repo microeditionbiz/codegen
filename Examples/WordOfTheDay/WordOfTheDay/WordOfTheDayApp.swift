@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct WordOfTheDayApp: App {
+    let dependencyContainer = DependencyContainer()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            WordOfTheDayView(
+                theme: .init(context: dependencyContainer),
+                viewModel: .init(context: dependencyContainer)
+            )
         }
     }
 }
