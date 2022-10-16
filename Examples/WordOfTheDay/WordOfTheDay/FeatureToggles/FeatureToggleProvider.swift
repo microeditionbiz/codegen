@@ -19,12 +19,12 @@ public struct FeatureToggle<T> {
 }
 
 public protocol FeatureTogglesProvider {
-    func fetchFeatureToggles(_ completion: @escaping (Result<Void, Error>) -> Void)
-    func value<T>(_ type: T.Type, for key: String) -> T?
+    func fetch(_ completion: @escaping (Result<Void, Error>) -> Void)
+    func value<T>(_ featureToggle: FeatureToggle<T>) -> T
 }
 
 public extension FeatureTogglesProvider {
-    func value<T>(_ featureToggle: FeatureToggle<T>) -> T {
-        value(T.self, for: featureToggle.key) ?? featureToggle.fallback()
+    func fetch() {
+        fetch { _ in }
     }
 }

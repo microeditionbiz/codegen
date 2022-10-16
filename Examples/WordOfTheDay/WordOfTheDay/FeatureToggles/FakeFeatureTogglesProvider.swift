@@ -9,12 +9,14 @@ import Foundation
 
 public struct FakeFeatureTogglesProvider: FeatureTogglesProvider {
 
-    public func fetchFeatureToggles(_ completion: @escaping (Result<Void, Error>) -> Void) {
+    public func fetch(_ completion: @escaping (Result<Void, Error>) -> Void) {
         DispatchQueue.main.async {
             completion(.success(()))
         }
     }
 
-    public func value<T>(_ type: T.Type, for key: String) -> T? { nil }
+    public func value<T>(_ featureToggle: FeatureToggle<T>) -> T {
+        featureToggle.fallback()
+    }
 
 }

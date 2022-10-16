@@ -12,6 +12,7 @@ final class DependencyContainer {
 
     init(featureToggles: FeatureTogglesProvider = FirebaseConfigurationProvider()) {
         self.featureToggles = featureToggles
+        featureToggles.fetch()
     }
 }
 

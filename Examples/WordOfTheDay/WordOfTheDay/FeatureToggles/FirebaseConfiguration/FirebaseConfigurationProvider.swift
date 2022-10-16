@@ -21,13 +21,11 @@ public final class FirebaseConfigurationProvider: FeatureTogglesProvider {
         settings.minimumFetchInterval = 0
         remoteConfig.configSettings = settings
 
-        remoteConfig.activate()
-        remoteConfig.fetch()
-        
         self.remoteConfig = remoteConfig
     }
 
-    public func fetchFeatureToggles(_ completion: @escaping (Result<Void, Error>) -> Void) {
+    public func fetch(_ completion: @escaping (Result<Void, Error>) -> Void) {
+        remoteConfig.activate()
         remoteConfig.fetch { status, error in
             if let error = error {
                 completion(.failure(error))
@@ -37,24 +35,30 @@ public final class FirebaseConfigurationProvider: FeatureTogglesProvider {
         }
     }
 
-    public func value<T>(_ type: T.Type, for key: String) -> T? {
+    public func value<T>(_ featureToggle: FeatureToggle<T>) -> T {
+        let key = featureToggle.key
+
         let remoteConfigValue = RemoteConfig.remoteConfig().configValue(
             forKey: key,
             source: .remote
         )
 
-        guard remoteConfigValue.source == .remote else { return nil }
+        guard remoteConfigValue.source == .remote else { return featureToggle.fallback() }
 
-        switch type {
+        let value: T?
+
+        switch T.self {
         case is String.Type:
-            return remoteConfigValue.stringValue as? T
+            value = remoteConfigValue.stringValue as? T
         case is NSNumber.Type:
-            return remoteConfigValue.numberValue as? T
+            value = remoteConfigValue.numberValue as? T
         case is Bool.Type:
-            return remoteConfigValue.boolValue as? T
+            value = remoteConfigValue.boolValue as? T
         default:
-            return remoteConfigValue.jsonValue as? T
+            value = remoteConfigValue.jsonValue as? T
         }
+
+        return value ?? featureToggle.fallback()
     }
 
 }
