@@ -18,7 +18,7 @@ As an example of this, we are going to use Firebase Remote Configuration (This c
 
 The app shows a randon word when you hit Start button.
 
-<img src="Images/WOD-Screenshot.png" alt="WOD" width="300"/>
+<img src="Images/WOD-screenshot.png" alt="WOD" width="300"/>
 
 The app is using these feature toggles:
 
