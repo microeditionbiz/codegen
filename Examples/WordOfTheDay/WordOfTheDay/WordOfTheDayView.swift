@@ -38,5 +38,6 @@ struct WordOfTheDayView_Previews: PreviewProvider {
             theme: .init(),
             viewModel: .init()
         )
+        .environment(\.featureTogglesProvider, FakeFeatureTogglesProvider())
     }
 }
