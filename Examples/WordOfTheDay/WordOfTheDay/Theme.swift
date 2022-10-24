@@ -8,18 +8,13 @@
 import SwiftUI
 
 struct Theme {
-    typealias Context = HasFeatureTogglesProvider
-    private let context: Context
-
-    init(context: Context) {
-        self.context = context
-    }
+    @Environment(\.featureTogglesProvider) var featureToggles: FeatureTogglesProvider
 
     var mainColor: Color {
-        Color(hex: context.featureToggles.value(.mainColor))
+        Color(hex: featureToggles.value(.mainColor))
     }
 
     var accentColor: Color {
-        Color(hex: context.featureToggles.value(.accentColor))
+        Color(hex: featureToggles.value(.accentColor))
     }
 }

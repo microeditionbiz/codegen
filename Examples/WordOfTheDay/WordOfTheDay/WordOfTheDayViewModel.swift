@@ -8,21 +8,20 @@
 import SwiftUI
 
 final class WordOfTheDayViewModel: ObservableObject {
-    typealias Context = HasFeatureTogglesProvider
+    @Environment(\.featureTogglesProvider)
+    private var featureToggles: FeatureTogglesProvider
 
-    private let words: [String]?
-    let title: String?
-
-    @Published var word: String
-
-    init(context: Context) {
-        words = context.featureToggles.value(.words)["words"] as? [String]
-        title = context.featureToggles.value(.title)
-        word = "Tap Start to begin"
+    private var words: [String]? {
+        featureToggles.value(.words)["words"] as? [String]
     }
 
+    var title: String? {
+        featureToggles.value(.title)
+    }
+
+    @Published var word: String = "Tap Start to begin"
+
     func refresh() {
-        guard let word = words?.randomElement() else { return }
-        self.word = word
+        self.word = words?.randomElement() ?? "No words to show"
     }
 }

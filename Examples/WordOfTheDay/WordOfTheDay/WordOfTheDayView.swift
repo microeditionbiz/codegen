@@ -35,8 +35,8 @@ struct WordOfTheDayView: View {
 struct WordOfTheDayView_Previews: PreviewProvider {
     static var previews: some View {
         WordOfTheDayView(
-            theme: .init(context: DependencyContainer.fake),
-            viewModel: .init(context: DependencyContainer.fake)
+            theme: .init(),
+            viewModel: .init()
         )
     }
 }
