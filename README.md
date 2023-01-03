@@ -31,7 +31,7 @@ Alternatively, you can run `$ sh install.sh` from the root folder.
 
 ## Usage
 
-![fruit example](Images/codegen-base-example.png)
+<img width="1005" alt="codegen-base-example" src="https://user-images.githubusercontent.com/569085/210405618-6ed71196-f436-4db3-bf7f-dddeb4993553.png">
 
 Codegen is a command line tool. You have to provide three parameters: 
 
@@ -55,7 +55,7 @@ In case that you want to generate multiple files from one template or just set a
 
 Imagine that you have an input YAML of people:
 
-![File annotations example](Images/codegen-file-annotations-example.png)
+<img width="1129" alt="codegen-file-annotations-example" src="https://user-images.githubusercontent.com/569085/210405732-f79a2fa7-0d1b-43e6-8b57-76e10be5f5a7.png">
 
 Having this input.yaml
 
