@@ -18,7 +18,7 @@ As an example of this, we are going to use Firebase Remote Configuration (This c
 
 The app shows a randon word when you hit Start button.
 
-<img src="Images/WOD-screenshot.png" alt="WOD" width="300"/>
+<img src="https://user-images.githubusercontent.com/569085/210406116-0e3d4a1c-bd4f-4d47-a5f6-28796b81953d.png" alt="WOD" width="300"/>
 
 The app is using these feature toggles:
 
@@ -33,7 +33,7 @@ In a real world application, you will have much more feature toggles.
 
 Before dive deep into the Firebase Remote Configuration example, we will describe briefly the abstraction that we are using on top of the Feature Toggles provider, so it's easier in the future to replace that one with a different one.
 
-<img src="Images/Feature-toggles-abstraction.png" alt="Feature Toggles Abstraction" width="700"/>
+<img width="700" alt="Feature-toggles-abstraction" src="https://user-images.githubusercontent.com/569085/210406188-fe2f4cfb-3b95-4ccf-8b56-817614552963.png">
 
 * `FeatureToggle<T>` It's a generic struct that contains the assoicated key name and a fallback value.
 * `FeatureToggleProvider` It's a protocol that contains two methods, `fetch(_:)` that will fetch the Feature Toggles from the remote location, and `value<T>(_:) -> T` that will return a value assoicated to the Feature Toggle or fallback to the default value.
@@ -64,7 +64,7 @@ let value = provider.value(.title)
 
 From Firebase Remote Configuration console we can download a JSON file with the Feature Toggles and use that as an input for codegen. To do that you have to select the option __Download current config file__.
 
-<img src="Images/Firebase-remote-configuration-console.png" alt="Firebase Remote Configuration" width="900"/>
+<img width="900" alt="Firebase-remote-configuration-console" src="https://user-images.githubusercontent.com/569085/210406245-e29e5df0-7d54-41c5-aa0e-5ee6bdf09fcb.png">
 
 This is how the JSON looks like:
 
